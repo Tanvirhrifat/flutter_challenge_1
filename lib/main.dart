@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
-import 'medicine_db.dart';  // Import the database initialization logic
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'bloc/medicine_bloc.dart';
+import 'bloc/medicine_event.dart';
+import 'bloc/medicine_state.dart';
 
 void main() {
   runApp(MyApp());
@@ -9,8 +12,14 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Medicine List',
-      home: MedicineListScreen(),
+      title: 'Medicine List with BLoC',
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+      ),
+      home: BlocProvider(
+        create: (_) => MedicineBloc()..add(const FetchMedicines()),  // Initialize BLoC
+        child: MedicineListScreen(),
+      ),
     );
   }
 }
@@ -22,31 +31,31 @@ class MedicineListScreen extends StatelessWidget {
       appBar: AppBar(
         title: Text("Medicines"),
       ),
-      body: FutureBuilder<List<Map<String, dynamic>>>(
-        future: fetchMedicines(),
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(child: CircularProgressIndicator());
+      body: BlocBuilder<MedicineBloc, MedicineState>(
+        builder: (context, state) {
+          if (state is MedicineStateLoading) {
+            return Center(child: CircularProgressIndicator());  // Loading indication
           }
 
-          if (snapshot.hasError) {
-            return Center(child: Text('Error: ${snapshot.error}'));
+          if (state is MedicineStateError) {
+            return Center(child: Text("Error: ${state.message}"));  // Display error
           }
 
-          final medicines = snapshot.data ?? [];
+          if (state is MedicineStateLoaded) {
+            return ListView.builder(
+              itemCount: state.medicines.length,
+              itemBuilder: (context, index) {
+                var medicine = state.medicines[index];
+                return ListTile(
+                  title: Text(medicine['brand_name'] ?? 'No name'),
+                  subtitle: Text("${medicine['form']} - ${medicine['strength']}"),
+                  trailing: Text("${medicine['price']} USD"),  // Show price
+                );
+              },
+            );
+          }
 
-          return ListView.builder(
-            itemCount: medicines.length,
-            itemBuilder: (context, index) {
-              final medicine = medicines[index];
-              return ListTile(
-                title: Text(medicine['brand_name'] ?? 'No name'),
-                subtitle: Text(
-                    '${medicine['form']} - ${medicine['strength']}'),
-                trailing: Text('${medicine['price']} USD'),
-              );
-            },
-          );
+          return Center(child: Text("Unexpected State"));  // Unexpected case
         },
       ),
     );

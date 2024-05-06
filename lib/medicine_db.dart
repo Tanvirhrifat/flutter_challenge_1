@@ -28,7 +28,6 @@ Future<Database> initDatabase() async {
   return openDatabase(dbPath, readOnly: true);
 }
 
-// Function to fetch data from the 'medicine' table
 Future<List<Map<String, dynamic>>> fetchMedicines() async {
   final db = await initDatabase();
   try {

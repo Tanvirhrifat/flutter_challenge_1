@@ -1,7 +1,8 @@
-part of 'medicine_bloc.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 
-@immutable
-abstract class MedicineEvent {}
+part 'medicine_event.freezed.dart';
 
-class LoadMedicines extends MedicineEvent {}
-
+@freezed
+class MedicineEvent with _$MedicineEvent {
+  const factory MedicineEvent.fetch() = FetchMedicines;  // Event to fetch data
+}

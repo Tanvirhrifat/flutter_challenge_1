@@ -1,18 +1,11 @@
-part of 'medicine_bloc.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 
-@immutable
-abstract class MedicineState {}
+part 'medicine_state.freezed.dart';
 
-class MedicineLoading extends MedicineState {}
-
-class MedicineLoaded extends MedicineState {
-  final List<Medicine> medicines;
-
-  MedicineLoaded(this.medicines);
-}
-
-class MedicineError extends MedicineState {
-  final String error;
-
-  MedicineError(this.error);
+@freezed
+class MedicineState with _$MedicineState {
+  const factory MedicineState.initial() = MedicineStateInitial;  // Initial state
+  const factory MedicineState.loading() = MedicineStateLoading;  // Loading state
+  const factory MedicineState.loaded(List<Map<String, dynamic>> medicines) = MedicineStateLoaded;  // Data loaded
+  const factory MedicineState.error(String message) = MedicineStateError;  // Error state
 }
