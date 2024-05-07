@@ -110,10 +110,16 @@ class _HomePageState extends State<HomePage> {
                               style: TextStyle(color: Colors.white),
                             ),
                             subtitle: Text(
-                              "${medicine['strength']} - ${medicine['company_id']}\nGeneric: ${medicine['generic_id']}",
+                              "${medicine['strength']} - ${medicine['company_name']}\nGeneric: ${medicine['generic_id']}",
                               style: TextStyle(color: Colors.white),
                             ),
                             isThreeLine: true,
+                            trailing: TextButton(
+                              child: Text("View Details", style: TextStyle(color: Colors.white)),
+                              onPressed: () {
+                                // Handle button press
+                              },
+                            ),
                           ),
                         );
                       },
