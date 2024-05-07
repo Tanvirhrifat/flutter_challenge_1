@@ -18,72 +18,113 @@ class _HomePageState extends State<HomePage> {
     return BlocProvider(
       create: (_) => MedicineBloc()..add(const FetchMedicines()),
       child: Scaffold(
-        appBar: AppBar(
-          title: Text("Medicine"),
-          backgroundColor: Colors.deepPurple,
-        ),
+        // appBar: AppBar(
+        //   title: Text("Medicine", style: TextStyle(color: Colors.white)),
+        //   backgroundColor: Colors.grey[900],
+        // ),
         backgroundColor: Colors.grey[900],
         body: Column(
           children: [
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: TextField(
-                decoration: InputDecoration(
-                  labelText: 'Search by Medicine Name',
-                  labelStyle: TextStyle(color: Colors.white),
-                  border: OutlineInputBorder(),
-                  suffixIcon: Icon(Icons.search, color: Colors.white),
+            Card(
+              color: Colors.grey[800], // Light gray background for the card
+              elevation: 4, // Elevation for shadow effect
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10), // Rounded corners
+              ),
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(6, 20, 6, 20),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(2, 10, 0, 2),
+                      child: Text(
+                        "Medicine",
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 20, // Title font size
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(30, 5, 30, 20),
+                      child: TextField(
+                        decoration: InputDecoration(
+                          labelText: 'Search by Medicine Name',
+                          labelStyle: TextStyle(color: Colors.grey[700]),
+                          border: OutlineInputBorder(),
+                        ),
+                        style: TextStyle(color: Colors.black),
+                      ),
+                    ),
+
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(25, 5, 25, 5),
+                      child: Divider(
+                        color: Colors.grey[600],
+                        thickness: 1,
+                      ),
+                    ),
+                    Padding(
+
+                      padding: const EdgeInsets.fromLTRB(6, 5, 6 ,6),
+                      child: ToggleButtons(
+                        isSelected: _typeSelection,
+                        children: [
+                          _createLongToggleButton("Medicine", context),
+                          _createLongToggleButton("Generic", context),
+                          _createLongToggleButton("Brand", context),
+                        ],
+                        onPressed: (index) {
+                          setState(() {
+                            _typeSelection = [false, false, false];
+                            _typeSelection[index] = true;
+                          });
+                        },
+                        borderRadius: BorderRadius.circular(10),
+                        fillColor: Colors.deepPurple,
+                        borderColor: Colors.black,
+                        selectedBorderColor: Colors.deepPurple,
+                        selectedColor: Colors.white,
+                        color: Colors.black,
+
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(25, 5, 25, 5),
+                      child: Divider(
+                        color: Colors.grey[600],
+                        thickness: 1,
+                      ),
+                    ),
+                    SizedBox(height: 16),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 6.0),
+                      child: ToggleButtons(
+                        isSelected: _sortSelection,
+                        children: [
+                          _createWiderToggleButton("A to Z"),
+                          _createWiderToggleButton("Z to A"),
+                        ],
+                        onPressed: (index) {
+                          setState(() {
+                            _sortSelection = [false, false];
+                            _sortSelection[index] = true;
+                          });
+                        },
+                        borderRadius: BorderRadius.circular(20),
+                        fillColor: Colors.deepPurple,
+                        borderColor: Colors.white,
+                        selectedBorderColor: Colors.deepPurple,
+                        selectedColor: Colors.white,
+                        color: Colors.grey[800],
+                      ),
+                    ),
+                  ],
                 ),
-                style: TextStyle(color: Colors.white),
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 8.0),
-              child: ToggleButtons(
-                isSelected: _typeSelection,
-                children: [
-                  _createLongToggleButton("Medicine", context),
-                  _createLongToggleButton("Generic", context),
-                  _createLongToggleButton("Brand", context),
-                ],
-                onPressed: (index) {
-                  setState(() {
-                    _typeSelection = [false, false, false];
-                    _typeSelection[index] = true;
-                  });
-                },
-                borderRadius: BorderRadius.circular(20),
-                fillColor: Colors.deepPurple,
-                borderColor: Colors.white,
-                selectedBorderColor: Colors.deepPurple,
-                selectedColor: Colors.white,
-                color: Colors.white,
-              ),
-            ),
-            SizedBox(height: 16),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 8.0),
-              child: ToggleButtons(
-                isSelected: _sortSelection,
-                children: [
-                  _createWiderToggleButton("A-Z"),
-                  _createWiderToggleButton("Z-A"),
-                ],
-                onPressed: (index) {
-                  setState(() {
-                    _sortSelection = [false, false];
-                    _sortSelection[index] = true;
-                  });
-                },
-                borderRadius: BorderRadius.circular(20),
-                fillColor: Colors.deepPurple,
-                borderColor: Colors.white,
-                selectedBorderColor: Colors.deepPurple,
-                selectedColor: Colors.white,
-                color: Colors.white,
-              ),
-            ),
-            SizedBox(height: 10,),
+            SizedBox(height: 10),
             Expanded(
               child: BlocBuilder<MedicineBloc, MedicineState>(
                 builder: (context, state) {
@@ -99,26 +140,82 @@ class _HomePageState extends State<HomePage> {
 
                   if (state is MedicineStateLoaded) {
                     return ListView.builder(
+                      padding: const EdgeInsets.symmetric(horizontal: 16.0),
                       itemCount: state.medicines.length,
                       itemBuilder: (context, index) {
                         var medicine = state.medicines[index];
                         return Card(
-                          color: Colors.grey[800],  // Dark card color to match the theme
-                          child: ListTile(
-                            title: Text(
-                              medicine['brand_name'],
-                              style: TextStyle(color: Colors.white),
-                            ),
-                            subtitle: Text(
-                              "${medicine['strength']} - ${medicine['company_name']} ${medicine['form'] }\n ${medicine['generic_name']}",
-                              style: TextStyle(color: Colors.white),
-                            ),
-                            isThreeLine: true,
-                            trailing: TextButton(
-                              child: Text("View Details", style: TextStyle(color: Colors.white)),
-                              onPressed: () {
-                                // Handle button press
-                              },
+                          color: Colors.grey[800],  // Dark card color
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Row(
+                                  children: [
+                                    Text(
+                                      medicine['brand_name'],
+                                      style: TextStyle(
+                                        fontSize: 18,
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                    SizedBox(width: 8),
+                                    Text(
+                                      medicine['form'],
+                                      style: TextStyle(
+                                        fontSize: 14,
+                                        color: Color(0xFF80CBC4),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                Text(
+                                  medicine['strength'],
+                                  style: TextStyle(
+                                    fontSize: 14,
+                                    color: Color(0xFF80CBC4),
+                                  ),
+                                ),
+                                Divider(
+                                  color: Colors.grey[600],
+                                ),
+                                Text(
+                                  medicine['company_name'],
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    color: Colors.white,
+                                  ),
+                                ),
+                                Text(
+                                  medicine['generic_name'],
+                                  style: TextStyle(
+                                    fontSize: 14,
+                                    color: Color(0xFF80CBC4),
+                                  ),
+                                ),
+                                SizedBox(height: 8),  // Space before button
+                                TextButton(
+                                  onPressed: () {
+                                    // Handle "View Details" action
+                                  },
+                                  style: TextButton.styleFrom(
+                                    foregroundColor: Colors.white,
+                                    backgroundColor: Colors.deepPurple,
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(15),
+                                    ),
+                                  ),
+                                  child: Center(
+                                    child: Text(
+                                      "View Details",
+                                      style: TextStyle(
+                                        fontSize: 12,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
                             ),
                           ),
                         );
