@@ -1,7 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'medicine_event.dart';
 import 'medicine_state.dart';
-import 'package:flutter_challenge_1/Repository/medicine_db.dart';
+import 'package:flutter_challenge_1/Repository/medicine_repository.dart';
 
 class MedicineBloc extends Bloc<MedicineEvent, MedicineState> {
   final MedicineRepository _medicineRepository;

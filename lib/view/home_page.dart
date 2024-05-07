@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../Repository/medicine_db.dart';
+import '../Repository/medicine_repository.dart';
 import '../bloc/medicine_bloc.dart';
 import '../bloc/medicine_event.dart';
 import '../bloc/medicine_state.dart';
@@ -27,7 +27,7 @@ class _HomePageState extends State<HomePage> {
               color: Colors.grey[800],
               elevation: 4,
               shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10),
+                borderRadius: BorderRadius.circular(20),
               ),
               child: Padding(
                 padding: const EdgeInsets.fromLTRB(6, 20, 6, 20),
@@ -35,7 +35,7 @@ class _HomePageState extends State<HomePage> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Padding(
-                      padding: const EdgeInsets.fromLTRB(6, 10, 0, 2),
+                      padding: const EdgeInsets.fromLTRB(6, 6, 0, 2),
                       child: Text(
                         "Medicine",
                         style: TextStyle(
@@ -45,7 +45,7 @@ class _HomePageState extends State<HomePage> {
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.fromLTRB(30, 5, 30, 20),
+                      padding: const EdgeInsets.fromLTRB(30, 5, 30, 10),
                       child: TextField(
                         decoration: InputDecoration(
                           labelText: 'Search by Medicine Name',
@@ -56,9 +56,9 @@ class _HomePageState extends State<HomePage> {
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.fromLTRB(25, 5, 25, 5),
+                      padding: const EdgeInsets.fromLTRB(25, 3, 25, 5),
                       child: Divider(
-                        color: Colors.grey[600],
+                        color: Colors.grey[700],
                         thickness: 1,
                       ),
                     ),
@@ -77,17 +77,12 @@ class _HomePageState extends State<HomePage> {
                             _typeSelection[index] = true;
                           });
                         },
-                        borderRadius: BorderRadius.circular(5),
-                        borderColor: Colors.black,
-                        selectedBorderColor: Colors.deepPurple,
-                        selectedColor: Colors.white,
-                        fillColor: Colors.transparent,
                       ),
                     ),
                     Padding(
                       padding: const EdgeInsets.fromLTRB(25, 5, 25, 5),
                       child: Divider(
-                        color: Colors.grey[600],
+                        color: Colors.grey[700],
                         thickness: 1,
                       ),
                     ),
@@ -97,7 +92,7 @@ class _HomePageState extends State<HomePage> {
                       child: ToggleButtons(
                         isSelected: _sortSelection,
                         children: [
-                          createSortingButton("A to Z", 0),
+                          createSortingButton("A to Z",0),
                           createSortingButton("Z to A", 1),
                         ],
                         onPressed: (index) {
@@ -106,18 +101,13 @@ class _HomePageState extends State<HomePage> {
                             _sortSelection[index] = true;
                           });
                         },
-                        borderRadius: BorderRadius.circular(20),
-                        borderColor: Colors.black,
-                        selectedBorderColor: Colors.deepPurple,
-                        selectedColor: Colors.white,
-                        fillColor: Colors.transparent,
                       ),
                     ),
                   ],
                 ),
               ),
             ),
-            SizedBox(height: 10),
+            SizedBox(height: 16),
             Expanded(
               child: BlocBuilder<MedicineBloc, MedicineState>(
                 builder: (context, state) {
@@ -171,7 +161,7 @@ class _HomePageState extends State<HomePage> {
                                   ),
                                 ),
                                 Divider(
-                                  color: Colors.grey[600],
+                                  color: Colors.grey[700],
                                 ),
                                 Text(
                                   medicine['company_name'],
@@ -183,8 +173,10 @@ class _HomePageState extends State<HomePage> {
                                 Text(
                                   medicine['generic_name'],
                                   style: TextStyle(
-                                    fontSize: 14,
+                                    fontSize: 16,
                                     color: Color(0xFF80CBC4),
+                                    fontStyle: FontStyle.italic,
+
                                   ),
                                 ),
                                 SizedBox(height: 8),
@@ -253,7 +245,7 @@ class _HomePageState extends State<HomePage> {
       width: MediaQuery.of(context).size.width * 0.45,
       decoration: BoxDecoration(
         color: isSelected ? Colors.deepPurple : Colors.black,
-        borderRadius: isSelected? BorderRadius.circular(15): BorderRadius.circular(0),
+        borderRadius: isSelected? BorderRadius.circular(20): BorderRadius.circular(15),
       ),
       child: Center(
         child: Text(
