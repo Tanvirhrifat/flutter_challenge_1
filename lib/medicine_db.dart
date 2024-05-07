@@ -57,9 +57,10 @@ Future<List<Map<String, dynamic>>> fetchMedicines() async {
   final db = await initDatabase();
   return await db.rawQuery(
       '''
-    SELECT brand.*, company.company_name
+    SELECT brand.*, company.company_name, generic.generic_name
     FROM brand
     JOIN company_name AS company ON brand.company_id = company.company_id
+    JOIN generic AS generic ON brand.generic_id = generic.generic_id
     '''
   );
 }

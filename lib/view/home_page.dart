@@ -103,14 +103,14 @@ class _HomePageState extends State<HomePage> {
                       itemBuilder: (context, index) {
                         var medicine = state.medicines[index];
                         return Card(
-                          color: Colors.grey[800],
+                          color: Colors.grey[800],  // Dark card color to match the theme
                           child: ListTile(
                             title: Text(
                               medicine['brand_name'],
                               style: TextStyle(color: Colors.white),
                             ),
                             subtitle: Text(
-                              "${medicine['strength']} - ${medicine['company_name']}\nGeneric: ${medicine['generic_id']}",
+                              "${medicine['strength']} - ${medicine['company_name']} ${medicine['form'] }\n ${medicine['generic_name']}",
                               style: TextStyle(color: Colors.white),
                             ),
                             isThreeLine: true,
