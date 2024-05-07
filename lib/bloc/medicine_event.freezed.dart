@@ -19,32 +19,38 @@ mixin _$MedicineEvent {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() fetch,
+    required TResult Function(String query) search,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? fetch,
+    TResult? Function(String query)? search,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? fetch,
+    TResult Function(String query)? search,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(FetchMedicines value) fetch,
+    required TResult Function(SearchMedicinesByName value) search,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(FetchMedicines value)? fetch,
+    TResult? Function(SearchMedicinesByName value)? search,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(FetchMedicines value)? fetch,
+    TResult Function(SearchMedicinesByName value)? search,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -107,6 +113,7 @@ class _$FetchMedicinesImpl implements FetchMedicines {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() fetch,
+    required TResult Function(String query) search,
   }) {
     return fetch();
   }
@@ -115,6 +122,7 @@ class _$FetchMedicinesImpl implements FetchMedicines {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? fetch,
+    TResult? Function(String query)? search,
   }) {
     return fetch?.call();
   }
@@ -123,6 +131,7 @@ class _$FetchMedicinesImpl implements FetchMedicines {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? fetch,
+    TResult Function(String query)? search,
     required TResult orElse(),
   }) {
     if (fetch != null) {
@@ -135,6 +144,7 @@ class _$FetchMedicinesImpl implements FetchMedicines {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(FetchMedicines value) fetch,
+    required TResult Function(SearchMedicinesByName value) search,
   }) {
     return fetch(this);
   }
@@ -143,6 +153,7 @@ class _$FetchMedicinesImpl implements FetchMedicines {
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(FetchMedicines value)? fetch,
+    TResult? Function(SearchMedicinesByName value)? search,
   }) {
     return fetch?.call(this);
   }
@@ -151,6 +162,7 @@ class _$FetchMedicinesImpl implements FetchMedicines {
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(FetchMedicines value)? fetch,
+    TResult Function(SearchMedicinesByName value)? search,
     required TResult orElse(),
   }) {
     if (fetch != null) {
@@ -162,4 +174,140 @@ class _$FetchMedicinesImpl implements FetchMedicines {
 
 abstract class FetchMedicines implements MedicineEvent {
   const factory FetchMedicines() = _$FetchMedicinesImpl;
+}
+
+/// @nodoc
+abstract class _$$SearchMedicinesByNameImplCopyWith<$Res> {
+  factory _$$SearchMedicinesByNameImplCopyWith(
+          _$SearchMedicinesByNameImpl value,
+          $Res Function(_$SearchMedicinesByNameImpl) then) =
+      __$$SearchMedicinesByNameImplCopyWithImpl<$Res>;
+  @useResult
+  $Res call({String query});
+}
+
+/// @nodoc
+class __$$SearchMedicinesByNameImplCopyWithImpl<$Res>
+    extends _$MedicineEventCopyWithImpl<$Res, _$SearchMedicinesByNameImpl>
+    implements _$$SearchMedicinesByNameImplCopyWith<$Res> {
+  __$$SearchMedicinesByNameImplCopyWithImpl(_$SearchMedicinesByNameImpl _value,
+      $Res Function(_$SearchMedicinesByNameImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? query = null,
+  }) {
+    return _then(_$SearchMedicinesByNameImpl(
+      null == query
+          ? _value.query
+          : query // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$SearchMedicinesByNameImpl implements SearchMedicinesByName {
+  const _$SearchMedicinesByNameImpl(this.query);
+
+  @override
+  final String query;
+
+  @override
+  String toString() {
+    return 'MedicineEvent.search(query: $query)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$SearchMedicinesByNameImpl &&
+            (identical(other.query, query) || other.query == query));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, query);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$SearchMedicinesByNameImplCopyWith<_$SearchMedicinesByNameImpl>
+      get copyWith => __$$SearchMedicinesByNameImplCopyWithImpl<
+          _$SearchMedicinesByNameImpl>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() fetch,
+    required TResult Function(String query) search,
+  }) {
+    return search(query);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? fetch,
+    TResult? Function(String query)? search,
+  }) {
+    return search?.call(query);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? fetch,
+    TResult Function(String query)? search,
+    required TResult orElse(),
+  }) {
+    if (search != null) {
+      return search(query);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(FetchMedicines value) fetch,
+    required TResult Function(SearchMedicinesByName value) search,
+  }) {
+    return search(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(FetchMedicines value)? fetch,
+    TResult? Function(SearchMedicinesByName value)? search,
+  }) {
+    return search?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(FetchMedicines value)? fetch,
+    TResult Function(SearchMedicinesByName value)? search,
+    required TResult orElse(),
+  }) {
+    if (search != null) {
+      return search(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class SearchMedicinesByName implements MedicineEvent {
+  const factory SearchMedicinesByName(final String query) =
+      _$SearchMedicinesByNameImpl;
+
+  String get query;
+  @JsonKey(ignore: true)
+  _$$SearchMedicinesByNameImplCopyWith<_$SearchMedicinesByNameImpl>
+      get copyWith => throw _privateConstructorUsedError;
 }

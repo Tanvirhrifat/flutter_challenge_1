@@ -4,5 +4,6 @@ part 'medicine_event.freezed.dart';
 
 @freezed
 class MedicineEvent with _$MedicineEvent {
-  const factory MedicineEvent.fetch() = FetchMedicines;  // Event to fetch data
+  const factory MedicineEvent.fetch() = FetchMedicines;
+  // const factory MedicineEvent.search(String query) = SearchMedicinesByName;
 }

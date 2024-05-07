@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import '../Repository/medicine_db.dart';
 import '../bloc/medicine_bloc.dart';
 import '../bloc/medicine_event.dart';
 import '../bloc/medicine_state.dart';
@@ -10,26 +11,23 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  final medicineRepository = MedicineRepository();
   List<bool> _typeSelection = [true, false, false];
   List<bool> _sortSelection = [true, false];
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (_) => MedicineBloc()..add(const FetchMedicines()),
+      create: (_) => MedicineBloc(medicineRepository)..add(const FetchMedicines()),
       child: Scaffold(
-        // appBar: AppBar(
-        //   title: Text("Medicine", style: TextStyle(color: Colors.white)),
-        //   backgroundColor: Colors.grey[900],
-        // ),
         backgroundColor: Colors.grey[900],
         body: Column(
           children: [
             Card(
-              color: Colors.grey[800], // Light gray background for the card
-              elevation: 4, // Elevation for shadow effect
+              color: Colors.grey[800],
+              elevation: 4,
               shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10), // Rounded corners
+                borderRadius: BorderRadius.circular(10),
               ),
               child: Padding(
                 padding: const EdgeInsets.fromLTRB(6, 20, 6, 20),
@@ -37,12 +35,12 @@ class _HomePageState extends State<HomePage> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Padding(
-                      padding: const EdgeInsets.fromLTRB(2, 10, 0, 2),
+                      padding: const EdgeInsets.fromLTRB(6, 10, 0, 2),
                       child: Text(
                         "Medicine",
                         style: TextStyle(
                           color: Colors.white,
-                          fontSize: 20, // Title font size
+                          fontSize: 16,
                         ),
                       ),
                     ),
@@ -51,13 +49,12 @@ class _HomePageState extends State<HomePage> {
                       child: TextField(
                         decoration: InputDecoration(
                           labelText: 'Search by Medicine Name',
-                          labelStyle: TextStyle(color: Colors.grey[700]),
+                          labelStyle: TextStyle(color: Colors.grey[400]),
                           border: OutlineInputBorder(),
                         ),
                         style: TextStyle(color: Colors.black),
                       ),
                     ),
-
                     Padding(
                       padding: const EdgeInsets.fromLTRB(25, 5, 25, 5),
                       child: Divider(
@@ -66,14 +63,13 @@ class _HomePageState extends State<HomePage> {
                       ),
                     ),
                     Padding(
-
-                      padding: const EdgeInsets.fromLTRB(6, 5, 6 ,6),
+                      padding: const EdgeInsets.fromLTRB(6, 5, 6, 6),
                       child: ToggleButtons(
                         isSelected: _typeSelection,
                         children: [
-                          _createLongToggleButton("Medicine", context),
-                          _createLongToggleButton("Generic", context),
-                          _createLongToggleButton("Brand", context),
+                          createTypeSelectionButton("Medicine", context, 0),
+                          createTypeSelectionButton("Generic", context, 1),
+                          createTypeSelectionButton("Brand", context, 2),
                         ],
                         onPressed: (index) {
                           setState(() {
@@ -81,13 +77,11 @@ class _HomePageState extends State<HomePage> {
                             _typeSelection[index] = true;
                           });
                         },
-                        borderRadius: BorderRadius.circular(10),
-                        fillColor: Colors.deepPurple,
+                        borderRadius: BorderRadius.circular(5),
                         borderColor: Colors.black,
                         selectedBorderColor: Colors.deepPurple,
                         selectedColor: Colors.white,
-                        color: Colors.black,
-
+                        fillColor: Colors.transparent,
                       ),
                     ),
                     Padding(
@@ -97,14 +91,14 @@ class _HomePageState extends State<HomePage> {
                         thickness: 1,
                       ),
                     ),
-                    SizedBox(height: 16),
+                    SizedBox(height: 10),
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 6.0),
                       child: ToggleButtons(
                         isSelected: _sortSelection,
                         children: [
-                          _createWiderToggleButton("A to Z"),
-                          _createWiderToggleButton("Z to A"),
+                          createSortingButton("A to Z", 0),
+                          createSortingButton("Z to A", 1),
                         ],
                         onPressed: (index) {
                           setState(() {
@@ -113,11 +107,10 @@ class _HomePageState extends State<HomePage> {
                           });
                         },
                         borderRadius: BorderRadius.circular(20),
-                        fillColor: Colors.deepPurple,
-                        borderColor: Colors.white,
+                        borderColor: Colors.black,
                         selectedBorderColor: Colors.deepPurple,
                         selectedColor: Colors.white,
-                        color: Colors.grey[800],
+                        fillColor: Colors.transparent,
                       ),
                     ),
                   ],
@@ -145,7 +138,7 @@ class _HomePageState extends State<HomePage> {
                       itemBuilder: (context, index) {
                         var medicine = state.medicines[index];
                         return Card(
-                          color: Colors.grey[800],  // Dark card color
+                          color: Colors.grey[800],
                           child: Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: Column(
@@ -156,7 +149,7 @@ class _HomePageState extends State<HomePage> {
                                     Text(
                                       medicine['brand_name'],
                                       style: TextStyle(
-                                        fontSize: 18,
+                                        fontSize: 21,
                                         color: Colors.white,
                                       ),
                                     ),
@@ -194,27 +187,27 @@ class _HomePageState extends State<HomePage> {
                                     color: Color(0xFF80CBC4),
                                   ),
                                 ),
-                                SizedBox(height: 8),  // Space before button
-                                TextButton(
-                                  onPressed: () {
-                                    // Handle "View Details" action
-                                  },
-                                  style: TextButton.styleFrom(
-                                    foregroundColor: Colors.white,
-                                    backgroundColor: Colors.deepPurple,
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(15),
-                                    ),
-                                  ),
-                                  child: Center(
-                                    child: Text(
-                                      "View Details",
-                                      style: TextStyle(
-                                        fontSize: 12,
-                                      ),
-                                    ),
-                                  ),
-                                ),
+                                SizedBox(height: 8),
+                                // TextButton(
+                                //   onPressed: () {
+                                //
+                                //   },
+                                //   style: TextButton.styleFrom(
+                                //     foregroundColor: Colors.white,
+                                //     backgroundColor: Colors.deepPurple,
+                                //     shape: RoundedRectangleBorder(
+                                //       borderRadius: BorderRadius.circular(15),
+                                //     ),
+                                //   ),
+                                //   child: Center(
+                                //     child: Text(
+                                //       "View Details",
+                                //       style: TextStyle(
+                                //         fontSize: 12,
+                                //       ),
+                                //     ),
+                                //   ),
+                                // ),
                               ],
                             ),
                           ),
@@ -235,25 +228,39 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  Widget _createLongToggleButton(String text, BuildContext context) {
+  Widget createTypeSelectionButton(String text, BuildContext context, int index) {
+    bool isSelected = _typeSelection[index];
     return Container(
       width: MediaQuery.of(context).size.width * 0.3,
+      decoration: BoxDecoration(
+        color: isSelected ? Colors.deepPurple : Colors.black,
+        borderRadius: isSelected? BorderRadius.circular(5): BorderRadius.circular(0),
+      ),
       child: Center(
         child: Text(
           text,
-          style: TextStyle(color: Colors.white),
+          style: TextStyle(
+            color: isSelected ? Colors.white : Colors.white,
+          ),
         ),
       ),
     );
   }
 
-  Widget _createWiderToggleButton(String text) {
+  Widget createSortingButton(String text, int index) {
+    bool isSelected = _sortSelection[index];
     return Container(
       width: MediaQuery.of(context).size.width * 0.45,
+      decoration: BoxDecoration(
+        color: isSelected ? Colors.deepPurple : Colors.black,
+        borderRadius: isSelected? BorderRadius.circular(15): BorderRadius.circular(0),
+      ),
       child: Center(
         child: Text(
           text,
-          style: TextStyle(color: Colors.white),
+          style: TextStyle(
+            color: isSelected ? Colors.white : Colors.white,
+          ),
         ),
       ),
     );
